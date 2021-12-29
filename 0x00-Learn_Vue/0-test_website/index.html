@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, Vue!</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        body{
+            background: #eee;
+            max-width: 960px;
+            margin: 20px auto;
+        }
+        p, h3, ul {
+            padding: 0%;
+            margin: 0%;
+        }
+        li{
+            list-style-type: none;
+            background: #fff;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        li.fav{
+            background: #ff9ed2;
+            color: white;
+        }
+        .box {
+            padding: 100px 0;
+            width: 400px;
+            text-align: center;
+            background: #ddd;
+            margin: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <script src="app.js"></script>
+    <div id="app">
+        <!-- a few directives -->
+        <button v-on:click="number0++">Increase</button>
+        <button @click="number0--">Decrease</button> <!--v-on: is also @-->
+        <button @click="change_title('Tajiri Mjanja')">Change Title</button>
+        <!-- a few conditionals -->
+        <div v-if="showBooks">
+            <p>{{ title0 }} by {{ author0 }} and random number {{ number0 }}</p>
+            <button @click="toggle_show_books">
+                <span v-if="showBooks">Hide Books</span>
+                <span v-else>Show Books</span>
+            </button>
+        </div>
+        <div>
+            <span v-show="showBooks">currently showing books</span>
+        </div>
+        <br>
+        <!--a few mouse events-->
+        <div id="box" @mouseover="handle_mouse_over">mouse-over</div>
+        <div id="box" @mouseleave="handle_mouse_leave">mouse leave</div>
+        <div id="box" @dblclick="handle_double_click($event, 100)">double-click</div> <!-- $event is the first arg; 100 is the second-->
+        <div id="box" @mousemove="handle_mouse_move">Position: {{ x }}, {{ y }}</div>
+        <br>
+        <!-- loops -->
+        <div v-if="showBooks">
+            <ul>
+                <li v-for="book in books" @click="toggle_fav_status(book)"> Books
+                    <img :src="book.img" alt="book.title"> <!-- more on the use of ':' in :src next-->
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <!--attribute binding-->
+        <a v-bind:href="url0">Sample Website</a>
+        <a :href="url"> Another Website</a> <!-- v-bind:href is the same as :href -->
+        <!-- Dynamic classes and Computed properties-->
+        <div v-if="showBooks"> Favourites
+            <ul>
+                <li v-for="book in filtered_books" :class="fav: book.isFav"> <!--fav is a dynamic class-->
+                    <img :src="book.img" alt="book.title">
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
