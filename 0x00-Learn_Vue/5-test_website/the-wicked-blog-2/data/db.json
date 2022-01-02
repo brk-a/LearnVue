@@ -1,0 +1,16 @@
+{
+    "posts": [
+        {
+            "id": 1,
+            "title": "Welcome to The Wicked Blog", 
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "tags": ["webdev", "coding", "news"]
+        },
+        {
+            "id": 2,
+            "title": "Why Vue?",
+            "body": "Short answer: because Vue. Long answer: lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi tristique senectus et netus et. Orci dapibus ultrices in iaculis nunc sed augue lacus viverra. Senectus et netus et malesuada fames ac turpis egestas. Maecenas pharetra convallis posuere morbi.",
+            "tags": ["vue", "webdev", "coding"]
+        }
+    ]
+}
