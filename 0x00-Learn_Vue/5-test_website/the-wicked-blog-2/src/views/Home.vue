@@ -1,9 +1,15 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <PostList :posts="posts" v-if="showPosts"/>
+    <div class="error" v-if="error"> {{ error }}</div>
+    <div v-if="posts.length">
+      <PostList :posts="posts" v-if="showPosts"/>
+    </div>
+    <div v-else><h2>Loading...</h2></div>
     <button @click="showPosts = !showPosts">Posts</button>
-    <button @click="posts.pop()">Delete Post</button>
+    <div v-if="showPosts">
+      <button @click="posts.pop()">Delete Post</button>
+    </div>
   </div>
 </template>
 
@@ -16,23 +22,27 @@ export default {
   name: 'Home',
   components: {PostList},
   setup() {
-    const posts = ref([
-      {title: 'Welcome to The Wicked Blog', 
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      id: 1},
-      {title: 'Why Vue?',
-      body: 'Short answer: because Vue. Long answer: lorem ipsum dolor sit amet, consectetur adipiscing elit,\
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
-      Morbi tristique senectus et netus et. Orci dapibus ultrices in iaculis \
-      nunc sed augue lacus viverra. Senectus et netus et malesuada fames ac\
-      turpis egestas. Maecenas pharetra convallis posuere morbi.',
-      id: 2}
-    ])
-
+    const posts = ref([])
     const showPosts = ref(false)
+    const error = ref(null)
 
-    return {posts, showPosts}
+    const load = async () => {
+      try{
+        let data = await fetch('http://localhost:3000/posts')
+        if (!data.ok) {
+          throw Error('There was a problem (no idea what it is) while fetching data')
+        }
+        posts.value = await data.json()
+      }
+      catch (err) {
+        error.value = err.message
+        console.log(error.value)
+      }
+    }
+
+    load()
+
+    return {posts, showPosts, error}
   }
 }
 </script>
