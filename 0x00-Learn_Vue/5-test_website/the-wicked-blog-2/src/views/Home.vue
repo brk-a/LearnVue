@@ -6,39 +6,23 @@
       <PostList :posts="posts" v-if="showPosts"/>
     </div>
     <div v-else><h2>Loading...</h2></div>
-    <button @click="showPosts = !showPosts">Posts</button>
-    <div v-if="showPosts">
+    <span><button @click="showPosts = !showPosts">Posts</button></span>
+    <span v-if="showPosts">
       <button @click="posts.pop()">Delete Post</button>
-    </div>
+    </span>
   </div>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity'
 import PostList from '../components/PostList.vue'
+import getPosts from '../composables/getPosts'
 // @ is an alias to /src
 
 export default {
   name: 'Home',
   components: {PostList},
   setup() {
-    const posts = ref([])
-    const showPosts = ref(false)
-    const error = ref(null)
-
-    const load = async () => {
-      try{
-        let data = await fetch('http://localhost:3000/posts')
-        if (!data.ok) {
-          throw Error('There was a problem (no idea what it is) while fetching data')
-        }
-        posts.value = await data.json()
-      }
-      catch (err) {
-        error.value = err.message
-        console.log(error.value)
-      }
-    }
+    const {posts, error, showPosts, load} = getPosts()
 
     load()
 
